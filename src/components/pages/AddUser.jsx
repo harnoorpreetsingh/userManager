@@ -8,6 +8,7 @@ const AddUser = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
     
   } = useForm();
@@ -15,6 +16,7 @@ const AddUser = () => {
   const onSubmit = (data) => {
     console.log(data, "datdatadta");
     dispatch(addUser(data))
+    reset()
   };
   return (
     <>
