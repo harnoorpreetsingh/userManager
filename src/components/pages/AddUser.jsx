@@ -1,10 +1,11 @@
 import Navbar from "../navbar/Navbar";
 import { useForm } from "react-hook-form";
 import { addUser } from "../../redux/features/addUser/addUserSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const AddUser = () => {
+  const { dataArray } = useSelector((state) => state.users);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
@@ -14,10 +15,14 @@ const AddUser = () => {
     formState: { errors },
   } = useForm();
 
+  console.log(dataArray?.length, "dataArray dataArray");
+
   const onSubmit = (data) => {
-    console.log(data, "datdatadta");
-    
-    dispatch(addUser(data))
+    const addUserData = {
+      ...data,
+      id: dataArray?.length + 1,
+    };
+    dispatch(addUser(addUserData))
       .unwrap()
       .then(() => {
         reset();

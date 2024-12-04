@@ -36,6 +36,9 @@ export const addUser = createAsyncThunk(
   "users/addUser",
   async (data, thunkAPI) => {
     try {
+      // const state = thunkAPI.getState();
+      // const newId = state.users.dataArray.length + 1; // Use the length of dataArray as the new ID
+      // const newUser = { ...data, id: newId };
       const response = await api.post("/users", data);
       if (response.status === 201) {
         console.log(response.data, "response.data");
@@ -77,10 +80,7 @@ export const addUserSlice = createSlice({
         console.log(action.payload, "add case del user");
         state.dataArray = state.dataArray.filter(
           (user) => user.id !== action.payload
-        ).map((item, index) => ({
-          ...item,
-          id: index + 1,
-        }));
+        );
         state.isLoading = false;
       })
       .addCase(deleteUser.rejected, (state, action) => {
