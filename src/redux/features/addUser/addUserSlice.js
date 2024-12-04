@@ -80,6 +80,11 @@ export const addUserSlice = createSlice({
         console.log(action.payload, "add case del user");
         state.dataArray = state.dataArray.filter(
           (user) => user.id !== action.payload
+        ).map(
+          (item, index) => ({
+            ...item,
+            id: index + 1,
+          })
         );
         state.isLoading = false;
       })
