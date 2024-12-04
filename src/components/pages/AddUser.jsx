@@ -1,7 +1,10 @@
 import Navbar from "../navbar/Navbar";
 import { useForm } from "react-hook-form";
+import {addUser} from '../../redux/features/addUser/addUserSlice'
+import { useDispatch } from "react-redux";
 
 const AddUser = () => {
+  const dispatch = useDispatch()
   const {
     register,
     handleSubmit,
@@ -11,6 +14,7 @@ const AddUser = () => {
 
   const onSubmit = (data) => {
     console.log(data, "datdatadta");
+    dispatch(addUser(data))
   };
   return (
     <>

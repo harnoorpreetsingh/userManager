@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import  { useEffect } from "react";
 import Navbar from "../navbar/Navbar";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -19,6 +19,7 @@ const Users = () => {
   console.log(dataArray, "dataArray");
 
   const handleDelete = (id) => {
+    console.log(id, "diididididid")
     dispatch(deleteUser(id));
     console.log("deletedddd");
     // setData()
