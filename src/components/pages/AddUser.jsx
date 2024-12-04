@@ -18,9 +18,11 @@ const AddUser = () => {
 
   const onSubmit = (data) => {
     console.log(data, "datdatadta");
-    dispatch(addUser(data))
-    navigate("/users")
-    reset()
+   
+    dispatch(addUser(data)).unwrap().then(() => {
+      reset()
+      navigate("/users")
+    })
   };
   return (
     <>
