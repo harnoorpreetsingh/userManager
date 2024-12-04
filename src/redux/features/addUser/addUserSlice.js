@@ -22,12 +22,11 @@ export const deleteUser = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const response = await api.delete(`/users/${id}`);
-      // console.log(response,"responseeeeee")
       if (response.status === 200) {
         return id;
       }
     } catch (error) {
-      console.error("Failed to fetch users:", error);
+      console.error("Failed to delete user:", error);
       throw thunkAPI.rejectWithValue(error.response?.data);
     }
   }
@@ -39,11 +38,11 @@ export const addUser = createAsyncThunk(
     try {
       const response = await api.post("/users", data);
       if (response.status === 201) {
-        console.log(response, "response.data response.data");
-        return data;
+        console.log(response.data, "response.data");
+        return response.data; // Return the response data which includes the id
       }
     } catch (error) {
-      console.error("Failed to fetch users:", error);
+      console.error("Failed to add user:", error);
       throw thunkAPI.rejectWithValue(error.response?.data);
     }
   }
@@ -57,12 +56,7 @@ export const addUserSlice = createSlice({
     error: null,
     newUser: [],
   },
-  reducers: {
-    // addUser: (state, action) => {
-    //   state.dataArray.push(action.payload);
-    // },
-  },
-
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchUsers.pending, (state) => {
@@ -86,19 +80,18 @@ export const addUserSlice = createSlice({
         ).map((item, index) => ({
           ...item,
           id: index + 1,
-          // console.log(updateData)
-        }) );
+        }));
+        state.isLoading = false;
       })
-
       .addCase(deleteUser.rejected, (state, action) => {
         state.error = action.error.message;
+        state.isLoading = false;
       })
-
       .addCase(addUser.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(addUser.fulfilled, (state, action) => {
-        state.newUser.push(action.payload)
+        state.newUser.push(action.payload);
         state.isLoading = false;
       })
       .addCase(addUser.rejected, (state, action) => {
@@ -108,7 +101,4 @@ export const addUserSlice = createSlice({
   },
 });
 
-// export const {  } = addUserSlice.actions;
 export default addUserSlice.reducer;
-
-

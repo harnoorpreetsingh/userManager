@@ -1,28 +1,28 @@
 import Navbar from "../navbar/Navbar";
 import { useForm } from "react-hook-form";
-import {addUser} from '../../redux/features/addUser/addUserSlice'
+import { addUser } from "../../redux/features/addUser/addUserSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const AddUser = () => {
-
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-    
   } = useForm();
 
   const onSubmit = (data) => {
     console.log(data, "datdatadta");
-   
-    dispatch(addUser(data)).unwrap().then(() => {
-      reset()
-      navigate("/users")
-    })
+    
+    dispatch(addUser(data))
+      .unwrap()
+      .then(() => {
+        reset();
+        navigate("/users");
+      });
   };
   return (
     <>
@@ -37,7 +37,9 @@ const AddUser = () => {
               className="border ml-4 border-black"
               {...register("name", { required: true })}
             />{" "}
-            {errors.name && <span style={{ color: 'red' }}>This field is required</span>}{" "}
+            {errors.name && (
+              <span style={{ color: "red" }}>This field is required</span>
+            )}{" "}
           </div>{" "}
           <div>
             {" "}
@@ -46,7 +48,9 @@ const AddUser = () => {
               className="border ml-4 border-black"
               {...register("username", { required: true })}
             />{" "}
-            {errors.username && <span style={{ color: 'red' }}>This field is required</span>}{" "}
+            {errors.username && (
+              <span style={{ color: "red" }}>This field is required</span>
+            )}{" "}
           </div>{" "}
           <div>
             {" "}
@@ -55,7 +59,9 @@ const AddUser = () => {
               className="border ml-4 border-black"
               {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
             />{" "}
-            {errors.email && <span style={{ color: 'red' }}>Invalid email address</span>}{" "}
+            {errors.email && (
+              <span style={{ color: "red" }}>Invalid email address</span>
+            )}{" "}
           </div>{" "}
           <div>
             {" "}
@@ -64,7 +70,9 @@ const AddUser = () => {
               className="border ml-4 border-black"
               {...register("address.street", { required: true })}
             />{" "}
-            {errors.address?.street && <span style={{ color: 'red' }}>This field is required</span>}{" "}
+            {errors.address?.street && (
+              <span style={{ color: "red" }}>This field is required</span>
+            )}{" "}
           </div>{" "}
           <div>
             {" "}
@@ -73,7 +81,9 @@ const AddUser = () => {
               className="border ml-4 border-black"
               {...register("address.suite", { required: true })}
             />{" "}
-            {errors.address?.suite && <span style={{ color: 'red' }}>This field is required</span>}{" "}
+            {errors.address?.suite && (
+              <span style={{ color: "red" }}>This field is required</span>
+            )}{" "}
           </div>{" "}
           <div>
             {" "}
@@ -82,26 +92,32 @@ const AddUser = () => {
               className="border ml-4 border-black"
               {...register("address.city", { required: true })}
             />{" "}
-            {errors.address?.city && <span style={{ color: 'red' }}>This field is required</span>}{" "}
+            {errors.address?.city && (
+              <span style={{ color: "red" }}>This field is required</span>
+            )}{" "}
           </div>{" "}
           <div>
             {" "}
             <label>Zipcode</label>{" "}
             <input
-              type="number" className="border ml-4 border-black"
+              type="number"
+              className="border ml-4 border-black"
               {...register("address.zipcode", { required: true })}
             />{" "}
-            {errors.address?.zipcode && <span style={{ color: 'red' }}>This field is required</span>}{" "}
+            {errors.address?.zipcode && (
+              <span style={{ color: "red" }}>This field is required</span>
+            )}{" "}
           </div>{" "}
           <div>
             {" "}
             <label>Latitude</label>{" "}
             <input
-            
               className="border ml-4 border-black"
               {...register("address.geo.lat", { required: true })}
             />{" "}
-            {errors.address?.geo?.lat && <span style={{ color: 'red' }}>This field is required</span>}{" "}
+            {errors.address?.geo?.lat && (
+              <span style={{ color: "red" }}>This field is required</span>
+            )}{" "}
           </div>{" "}
           <div>
             {" "}
@@ -110,13 +126,15 @@ const AddUser = () => {
               className="border ml-4 border-black"
               {...register("address.geo.lng", { required: true })}
             />{" "}
-            {errors.address?.geo?.lng && <span style={{ color: 'red' }}>This field is required</span>}{" "}
+            {errors.address?.geo?.lng && (
+              <span style={{ color: "red" }}>This field is required</span>
+            )}{" "}
           </div>{" "}
           <div>
             {" "}
             <label>Phone</label>{" "}
             <input
-            type="number"
+              type="number"
               className="border ml-4 border-black"
               {...register("phone")}
             />{" "}
@@ -136,7 +154,9 @@ const AddUser = () => {
               className="border ml-4 border-black"
               {...register("company.name", { required: true })}
             />{" "}
-            {errors.company?.name && <span style={{ color: 'red' }}>This field is required</span>}{" "}
+            {errors.company?.name && (
+              <span style={{ color: "red" }}>This field is required</span>
+            )}{" "}
           </div>{" "}
           <div>
             {" "}
