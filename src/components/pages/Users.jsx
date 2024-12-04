@@ -1,4 +1,4 @@
-import  { useEffect } from "react";
+import { useEffect } from "react";
 import Navbar from "../navbar/Navbar";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -16,25 +16,30 @@ const Users = () => {
     dispatch(fetchUsers());
   }, [dispatch]);
 
-  console.log(dataArray, "dataArray");
+  console.log(dataArray, "dataArray, dataArray , dataArray");
 
   const handleDelete = (id) => {
-    console.log(id, "diididididid")
+    console.log(id, "diididididid");
     dispatch(deleteUser(id));
     console.log("deletedddd");
     // setData()
   };
 
   return (
-    <div>
+    <>
       <Navbar />
       <div className="card-container grid grid-cols-2 gap-6 mx-40 mt-6 ">
         {dataArray &&
-          dataArray.map((elem) => (
-            <Card key={elem.id} handleDelete={handleDelete} elem={elem} />
-          ))}
+          dataArray.map((elem) => {
+            return (
+              <div className="" key={elem.id}>
+                {" "}
+                <Card elem={elem} handleDelete={handleDelete} />
+              </div>
+            );
+          })}
       </div>
-    </div>
+    </>
   );
 };
 
@@ -56,12 +61,12 @@ const Card = ({ elem, handleDelete }) => {
         <strong>Email:</strong> {email}
       </p>
       <p>
-        <strong>Address:</strong> {address.street}, {address.suite},{" "}
-        {address.city}, {address.zipcode}
+        <strong>Address:</strong> {address?.street}, {address?.suite},{" "}
+        {address?.city}, {address?.zipcode}
       </p>
       <p>
-        <strong>Geo:</strong> <strong>Lat</strong> {address.geo.lat},{" "}
-        <strong>Lng</strong> {address.geo.lng}
+        <strong>Geo:</strong> <strong>Lat</strong> {address?.geo.lat},{" "}
+        <strong>Lng</strong> {address?.geo.lng}
       </p>
       <p>
         <strong>Phone:</strong> {phone}

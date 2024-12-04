@@ -1,15 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { api } from "../../apiInstance/Api";
+import { jsonApi } from "../../apiInstance/Api";
 
 export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
   async (_, thunkAPI) => {
     try {
-      const response = await api.get("/users");
-
-      if (response.data) {
-        return response.data;
-      }
+      const response = await jsonApi.get("/users");
+      return response.data;
     } catch (error) {
       console.error("Failed to fetch users:", error);
       throw thunkAPI.rejectWithValue(error.response?.data);
@@ -20,10 +17,12 @@ export const fetchUsers = createAsyncThunk(
 export const deleteUser = createAsyncThunk(
   "users/deleteUser",
   async (id, thunkAPI) => {
+    console.log(id, "delete ididididididididididididididi");
     try {
-      const response = await api.delete(`/users/${id}`);
+      const response = await jsonApi.delete(`/users/${id}`);
+      console.log(response, "resrsrsrsrsrsrs");
       if (response.status === 200) {
-        return id;
+        return id; // Returning the deleted user ID
       }
     } catch (error) {
       console.error("Failed to delete user:", error);
@@ -36,13 +35,9 @@ export const addUser = createAsyncThunk(
   "users/addUser",
   async (data, thunkAPI) => {
     try {
-      // const state = thunkAPI.getState();
-      // const newId = state.users.dataArray.length + 1; // Use the length of dataArray as the new ID
-      // const newUser = { ...data, id: newId };
-      const response = await api.post("/users", data);
+      const response = await jsonApi.post("/users", data);
       if (response.status === 201) {
-        console.log(response.data, "response.data");
-        return response.data; // Return the response data which includes the id
+        return response.data; // Return the response data (including id)
       }
     } catch (error) {
       console.error("Failed to add user:", error);
@@ -51,7 +46,7 @@ export const addUser = createAsyncThunk(
   }
 );
 
-export const addUserSlice = createSlice({
+const addUserSlice = createSlice({
   name: "users",
   initialState: {
     isLoading: false,
@@ -73,13 +68,14 @@ export const addUserSlice = createSlice({
         state.error = action.error.message;
         state.isLoading = false;
       })
-      .addCase(deleteUser.pending, (state) => {
-        state.isLoading = true;
-      })
       .addCase(deleteUser.fulfilled, (state, action) => {
-        console.log(action.payload, "add case del user");
         state.dataArray = state.dataArray.filter(
           (user) => user.id !== action.payload
+        ).map(
+          (item, index) => ({
+            ...item,
+            id: index + 1,
+          })
         );
         state.isLoading = false;
       })
@@ -87,11 +83,8 @@ export const addUserSlice = createSlice({
         state.error = action.error.message;
         state.isLoading = false;
       })
-      .addCase(addUser.pending, (state) => {
-        state.isLoading = true;
-      })
       .addCase(addUser.fulfilled, (state, action) => {
-        state.newUser.push(action.payload);
+        state.newUser.push(action.payload); // Add new user data
         state.isLoading = false;
       })
       .addCase(addUser.rejected, (state, action) => {
