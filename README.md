@@ -31,10 +31,7 @@ Note: It won't work on live as data is fetched from db.json file, stored locally
    ```bash
    git clone https://github.com/harnoorpreetsingh/userManager.git
 
-2. npm install
-3. ```npm run dev```
-4.  for frontEnd part. 
-5. ```
-   npm run start:server
-   ```
+2.``` npm install```
+3. ```npm run dev``` tu run the frontEnd part. 
+4. ```npm run start:server```
    to start the Json Server.   
