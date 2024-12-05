@@ -2,7 +2,7 @@
 
 This project is a simple user management system built with React, Redux, JsonServer, and Tailwind CSS. It allows you to add, delete, and display users. The project also includes a loader component to indicate loading states and ensures that user IDs and emails are unique.
 
-**Note:** It won't work on live as data is fetched from the `db.json` file, stored locally that acts as an API of data. To run, follow the steps below.
+**Note:** It won't work on live as data is fetched from the `db.json` file, stored locally that acts as an API of data. To run, clone this repo & run on your local machine.
 
 ## Features
 
