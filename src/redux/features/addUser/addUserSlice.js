@@ -115,7 +115,7 @@ const addUserSlice = createSlice({
       .addCase(deleteUser.rejected, (state, action) => {
         state.error = action.error.message;
         state.isLoading = false;
-        toast.error("Couldn't perform the operation. Please Try Again!", state.error);;
+        toast.error("Couldn't perform the operation. Please Restart the Json Server!", state.error);;
 
       })
       .addCase(addUser.pending, (state) => {

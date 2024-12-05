@@ -4,8 +4,10 @@ import Loader from "../loader/Loader";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUsers, deleteUser } from "../../redux/features/addUser/addUserSlice";
 // import { Toaster } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const Users = () => {
+  const navigate = useNavigate()
   const { dataArray, isLoading } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const [showLoader, setShowLoader] = useState(true);
@@ -18,13 +20,28 @@ const Users = () => {
     return () => clearTimeout(timer);
   }, [dispatch]);
 
+  // const handleDelete = async (id) => {
+  //   setShowLoader(true); // Show loader when delete button is clicked
+  //   await new Promise((resolve) => setTimeout(resolve, 3000)); // 3-second delay
+  //   await dispatch(deleteUser(id)).unwrap();
+  //   dispatch(fetchUsers());
+  //   setShowLoader(false); // Hide loader after fetching data
+  // };
+
   const handleDelete = async (id) => {
     setShowLoader(true); // Show loader when delete button is clicked
-    await new Promise((resolve) => setTimeout(resolve, 3000)); // 3-second delay
-    await dispatch(deleteUser(id)).unwrap();
-    dispatch(fetchUsers());
-    setShowLoader(false); // Hide loader after fetching data
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 3000)); // 3-second delay
+      await dispatch(deleteUser(id)).unwrap();
+      dispatch(fetchUsers());
+    } catch (error) {
+      console.error("Failed to delete user:", error);
+    } finally {
+      setShowLoader(false);
+      navigate("/") // Hide loader after fetching data
+    }
   };
+  
 
   return (
     <>
