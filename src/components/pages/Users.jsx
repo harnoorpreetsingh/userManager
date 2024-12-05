@@ -3,6 +3,7 @@ import Navbar from "../navbar/Navbar";
 import Loader from "../loader/Loader";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUsers, deleteUser } from "../../redux/features/addUser/addUserSlice";
+// import { Toaster } from "sonner";
 
 const Users = () => {
   const { dataArray, isLoading } = useSelector((state) => state.users);
@@ -89,7 +90,10 @@ const Card = ({ elem, handleDelete }) => {
         Delete User
       </button>
     </div>
+
+
   );
 };
+{/* <Toaster position="top-center" /> */}
 
 export default Users;

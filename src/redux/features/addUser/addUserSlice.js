@@ -1,11 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { jsonApi } from "../../apiInstance/Api";
+import { toast } from 'sonner';
+
 
 export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
   async (_, thunkAPI) => {
     try {
-      const response = await jsonApi.get("/users");
+      const response = await jsonApi.get("/users")
+    
       return response.data;
     } catch (error) {
       console.error("Failed to fetch users:", error);
@@ -49,10 +52,10 @@ export const addUser = createAsyncThunk(
       if (emailExists) {
         throw new Error("Email already exists");
       }
-      const maxId = existingUsers.reduce(
+      const maxId = Number(existingUsers.reduce(
         (max, user) => (user.id > max ? user.id : max),
         0
-      );
+      ));
       const newId = maxId + 1;
       // Increment the highest ID by 1
       const newUser = { ...data, id: newId };
@@ -81,14 +84,19 @@ const addUserSlice = createSlice({
     builder
       .addCase(fetchUsers.pending, (state) => {
         state.isLoading = true;
+        
       })
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.dataArray = action.payload;
         state.isLoading = false;
+        // toast.success('Data Fetched Successfully!');;
+
       })
       .addCase(fetchUsers.rejected, (state, action) => {
         state.error = action.error.message;
         state.isLoading = false;
+        toast.error("Couldn't perform the operation. Please Try Again!", state.error);;
+
       })
       .addCase(deleteUser.pending, (state) => {
         state.isLoading = true;
@@ -101,21 +109,30 @@ const addUserSlice = createSlice({
             id: index + 1,
           }));
         state.isLoading = false;
+        toast.success('User Deleted Successfully!');;
+
       })
       .addCase(deleteUser.rejected, (state, action) => {
         state.error = action.error.message;
         state.isLoading = false;
+        toast.error("Couldn't perform the operation. Please Try Again!", state.error);;
+
       })
       .addCase(addUser.pending, (state) => {
         state.isLoading = true;
+        
       })
       .addCase(addUser.fulfilled, (state, action) => {
         state.dataArray.push(action.payload); // Add new user data
-        state.isLoading = false;
+        state.isLoading = false
+        toast.success('User Added Successfully!');;
+        ;
       })
       .addCase(addUser.rejected, (state, action) => {
         state.error = action.error.message;
         state.isLoading = false;
+        toast.error("Couldn't perform the operation. Please Try Again!", state.error);;
+
       });
   },
 });
