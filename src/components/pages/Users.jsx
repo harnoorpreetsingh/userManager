@@ -1,51 +1,44 @@
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../navbar/Navbar";
+import Loader from "../loader/Loader";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  deleteUser,
-  fetchUsers,
-} from "../../redux/features/addUser/addUserSlice";
+import { fetchUsers, deleteUser } from "../../redux/features/addUser/addUserSlice";
 
 const Users = () => {
-  const { dataArray } = useSelector((state) => state.users);
+  const { dataArray, isLoading } = useSelector((state) => state.users);
   const dispatch = useDispatch();
-
-  // const [Data, setData] = useState([])
+  const [showLoader, setShowLoader] = useState(true);
 
   useEffect(() => {
-    dispatch(fetchUsers());
+    const timer = setTimeout(() => {
+      dispatch(fetchUsers());
+      setShowLoader(false);
+    }, 3000); // 3-second delay
+    return () => clearTimeout(timer);
   }, [dispatch]);
 
-  console.log(dataArray, "dataArray, dataArray , dataArray");
-
-  // const handleDelete = (id) => {
-  //   console.log(id, "diididididid");
-  //   dispatch(deleteUser(id));
-  //   console.log("deletedddd");
-  //   // setData()
-  // };
-
   const handleDelete = async (id) => {
-    console.log(id, "diididididid");
+    setShowLoader(true); // Show loader when delete button is clicked
+    await new Promise((resolve) => setTimeout(resolve, 3000)); // 3-second delay
     await dispatch(deleteUser(id)).unwrap();
-    dispatch(fetchUsers()); // Fetch the data again after deletion
-    console.log("deletedddd");
+    dispatch(fetchUsers());
+    setShowLoader(false); // Hide loader after fetching data
   };
 
   return (
     <>
       <Navbar />
-      <div className="card-container grid grid-cols-2 gap-6 mx-40 mt-6 ">
-        {dataArray &&
-          dataArray.map((elem) => {
-            return (
-              <div className="" key={elem.id}>
-                {" "}
-                <Card elem={elem} handleDelete={handleDelete} />
-              </div>
-            );
-          })}
-      </div>
+      {showLoader ? (
+        <Loader />
+      ) : (
+        <div className="card-container grid grid-cols-2 gap-6 mx-40 mt-6">
+          {dataArray.map((elem) => (
+            <div key={elem.id}>
+              <Card elem={elem} handleDelete={handleDelete} />
+            </div>
+          ))}
+        </div>
+      )}
     </>
   );
 };
@@ -68,12 +61,10 @@ const Card = ({ elem, handleDelete }) => {
         <strong>Email:</strong> {email}
       </p>
       <p>
-        <strong>Address:</strong> {address?.street}, {address?.suite},{" "}
-        {address?.city}, {address?.zipcode}
+        <strong>Address:</strong> {address?.street}, {address?.suite}, {address?.city}, {address?.zipcode}
       </p>
       <p>
-        <strong>Geo:</strong> <strong>Lat</strong> {address?.geo.lat},{" "}
-        <strong>Lng</strong> {address?.geo.lng}
+        <strong>Geo:</strong> <strong>Lat</strong> {address?.geo.lat}, <strong>Lng</strong> {address?.geo.lng}
       </p>
       <p>
         <strong>Phone:</strong> {phone}

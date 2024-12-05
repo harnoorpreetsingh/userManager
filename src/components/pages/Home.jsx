@@ -43,11 +43,11 @@ const Home = () => {
           <button onClick={addUser} className='bg-slate-500 text-white p-1 rounded-lg mt-2 mb-2'>
         Click Here to Add a new User
       </button>
-          <li>
+          {/* <li>
             {" "}
             <strong> Edit User Information </strong>: Update user details with
             ease to ensure your records are always up-to-date.
-          </li>
+          </li> */}
           <li>
             {" "}
             <strong> Delete Users </strong>: Remove users from the list with a

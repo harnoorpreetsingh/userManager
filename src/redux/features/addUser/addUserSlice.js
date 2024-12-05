@@ -34,17 +34,33 @@ export const deleteUser = createAsyncThunk(
 export const addUser = createAsyncThunk(
   "users/addUser",
   async (data, thunkAPI) => {
-    console.log("datatat", data?.id)
     try {
       const state = thunkAPI.getState();
-      const maxId = Number(state.users.dataArray.reduce((max, user) => (user.id > max ? user.id : max), 0))
-      const newId = maxId + 1; // Increment the highest ID by 1
-
-      const newUser = { ...data, id: newId }; // Assign the new user ID
-
+      const existingUsers = state.users.dataArray;
+      // Check for duplicate ID
+      const idExists = existingUsers.some((user) => user.id === data.id);
+      if (idExists) {
+        throw new Error("ID already exists");
+      }
+      // Check for duplicate email
+      const emailExists = existingUsers.some(
+        (user) => user.email === data.email
+      );
+      if (emailExists) {
+        throw new Error("Email already exists");
+      }
+      const maxId = existingUsers.reduce(
+        (max, user) => (user.id > max ? user.id : max),
+        0
+      );
+      const newId = maxId + 1;
+      // Increment the highest ID by 1
+      const newUser = { ...data, id: newId };
+      // Assign the new user ID
       const response = await jsonApi.post("/users", newUser);
-      if (response.status === 201) { 
-        return response.data; // Return the response data (including id)
+      if (response.status === 201) {
+        return response.data;
+        // Return the response data (including id)
       }
     } catch (error) {
       console.error("Failed to add user:", error);
