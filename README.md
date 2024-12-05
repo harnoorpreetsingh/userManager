@@ -31,15 +31,3 @@ This project is a simple user management system built with React, Redux, JsonSer
 
    ```bash
    git clone https://github.com/harnoorpreetsingh/userManager.git
-
-   cd userManager
-
-   npm install
-   or
-   yarn install
-
-   npm run dev //To run the frontEnd
-
-
-
-
