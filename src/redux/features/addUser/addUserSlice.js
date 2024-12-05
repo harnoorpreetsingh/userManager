@@ -52,7 +52,7 @@ const addUserSlice = createSlice({
     isLoading: false,
     dataArray: [],
     error: null,
-    newUser: [],
+    // newUser: [],
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -61,7 +61,8 @@ const addUserSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(fetchUsers.fulfilled, (state, action) => {
-        state.dataArray = [...action.payload, ...state.newUser];
+        // state.dataArray = [...action.payload, ...state.newUser];
+        state.dataArray = action.payload;
         state.isLoading = false;
       })
       .addCase(fetchUsers.rejected, (state, action) => {
@@ -84,7 +85,7 @@ const addUserSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(addUser.fulfilled, (state, action) => {
-        state.newUser.push(action.payload); // Add new user data
+        state.dataArray.push(action.payload); // Add new user data
         state.isLoading = false;
       })
       .addCase(addUser.rejected, (state, action) => {
