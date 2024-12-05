@@ -5,7 +5,6 @@ import AddUser from "./components/pages/AddUser"
 import NotExists from "./components/pages/NotExists"
 import { Routes, Route } from "react-router-dom";
 
-
 function App() {
 
   return (

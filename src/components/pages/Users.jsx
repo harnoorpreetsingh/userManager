@@ -18,11 +18,18 @@ const Users = () => {
 
   console.log(dataArray, "dataArray, dataArray , dataArray");
 
-  const handleDelete = (id) => {
+  // const handleDelete = (id) => {
+  //   console.log(id, "diididididid");
+  //   dispatch(deleteUser(id));
+  //   console.log("deletedddd");
+  //   // setData()
+  // };
+
+  const handleDelete = async (id) => {
     console.log(id, "diididididid");
-    dispatch(deleteUser(id));
+    await dispatch(deleteUser(id)).unwrap();
+    dispatch(fetchUsers()); // Fetch the data again after deletion
     console.log("deletedddd");
-    // setData()
   };
 
   return (
